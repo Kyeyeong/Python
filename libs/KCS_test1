@@ -1,0 +1,20 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+df = pd.read_excel("수출입 총괄.xlsx")
+
+# 전처리
+df['수출금액'] = df['수출금액'].replace(',', '', regex=True).astype(float)
+df['월'] = df['월'].astype(str).str.strip()
+
+# 그룹핑 후 시각화
+df_grouped = df.groupby(['월'])['수출금액'].sum()
+df_grouped.plot(kind='line', title='2024년 월별 수출 추이')
+
+plt.xlabel("월")
+plt.ylabel("수출금액")
+plt.grid(True)
+plt.tight_layout()
+plt.savefig('월별수출추이.png')
+
+plt.show()
